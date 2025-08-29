@@ -1,3 +1,5 @@
+// src/components/BatTextInput/BatTextInput.tsx
+
 import React from 'react';
 import {TextInput } from 'react-native';
 

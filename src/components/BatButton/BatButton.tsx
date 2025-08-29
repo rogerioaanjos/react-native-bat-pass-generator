@@ -1,42 +1,35 @@
-import React, {useState} from 'react';
-import {Text, Pressable } from 'react-native';
-import generatePass from '../../services/passwordService';
+// src/components/BatButton/BatButtonStyles.tsx
+
+import React from 'react';
+import { Text, Pressable } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
+import { styles } from './BatButtonStyles';
 import { BatTextInput } from '../BatTextInput/BatTextInput';
 
-import * as Clipboard from 'expo-clipboard';
+interface BatButtonProps {
+  password: string;
+  onGenerate: () => void;
+}
 
-import { styles } from './BatButtonStyles';
-
-export function BatButton() {
-  const [pass, setPass] = useState('')
-
-  function handleGenerateButton() {
-    let generateToken  = generatePass()
-    setPass(generateToken)
-  }
-
-  function handleCopyButton(){
-    Clipboard.setStringAsync(pass)
-  }
+export function BatButton({ password, onGenerate }: BatButtonProps) {
+  const handleCopyButton = () => {
+    if (password !== '') {
+      Clipboard.setStringAsync(password);
+      alert('Senha copiada!');
+    }
+  };
 
   return (
     <>
-      <BatTextInput pass={pass}/>
-      
-      <Pressable
-        onPress={handleGenerateButton}
-        style={styles.button}
-      >
+      <BatTextInput pass={password} />
+
+      <Pressable onPress={onGenerate} style={styles.button}>
         <Text style={styles.text}>GENERATE</Text>
       </Pressable>
 
-      <Pressable
-        onPress={handleCopyButton}
-        style={styles.button}
-      >
+      <Pressable onPress={handleCopyButton} style={styles.button}>
         <Text style={styles.text}>⚡ COPY</Text>
       </Pressable>
-
     </>
   );
 }
